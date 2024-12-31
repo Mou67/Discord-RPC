@@ -1,0 +1,9 @@
+{
+    "client_id": "1258848751108489226",
+    "details": "🐍 Python on %os% | %hostname%",
+    "state": "💻 CPU: %cpu%% | RAM: %ram%% of %ram_total%GB | 💾 %disk_free%GB free",
+    "large_image": "python",
+    "large_text": "%username% | %weekday% %time%",
+    "small_image": "idle",
+    "small_text": "🔄 Up: %uptime% | IP: %ip%"
+}
