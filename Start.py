@@ -7,7 +7,7 @@ from datetime import datetime
 import os
 from colorama import init, Fore, Style
 
-init(autoreset=True)  # Initialize colorama
+init(autoreset=True)
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -24,9 +24,27 @@ $$$$$$$  |$$ |$$$$$$$  |\\$$$$$$$\\ \\$$$$$$  |$$ |      \\$$$$$$$ |      $$ |  
 \\_______/ \\__|\\_______/  \\_______| \\______/ \\__|       \\_______|      \\__|  \\__|\\__|       \\______/ 
     """ + Style.RESET_ALL)
 
+def find_config_file():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    max_depth = 3
+    
+    for i in range(max_depth):
+        config_path = os.path.join(current_dir, 'config.json')
+        if os.path.exists(config_path):
+            return config_path
+        current_dir = os.path.dirname(current_dir)
+    
+    return None
+
 def load_config():
     try:
-        with open('config.json', 'r', encoding='utf-8') as f:
+        config_path = find_config_file()
+        if config_path is None:
+            print(Fore.RED + "Error: config.json not found in current or parent directories" + Style.RESET_ALL)
+            return None
+            
+        print(Fore.GREEN + f"Found config at: {config_path}" + Style.RESET_ALL)
+        with open(config_path, 'r', encoding='utf-8') as f:
             return json.load(f)
     except Exception as e:
         print(Fore.RED + f"Error loading config: {e}" + Style.RESET_ALL)
@@ -44,7 +62,6 @@ def get_system_info():
     import getpass
 
     return {
-        # System info
         "cpu": cpu,
         "cores": psutil.cpu_count(),
         "ram": memory.percent,
@@ -56,7 +73,6 @@ def get_system_info():
         "disk_used": round(disk.used / (1024**3), 2),
         "disk_free": round(disk.free / (1024**3), 2),
         
-        # Time info
         "time": current_time.strftime("%H:%M:%S"),
         "date": current_time.strftime("%Y-%m-%d"),
         "uptime": time.strftime("%H:%M:%S", time.gmtime(uptime_seconds)),
@@ -68,7 +84,6 @@ def get_system_info():
         "year": current_time.strftime("%Y"),
         "weekday": current_time.strftime("%A"),
         
-        # OS info
         "os": platform.system(),
         "hostname": socket.gethostname(),
         "username": getpass.getuser(),

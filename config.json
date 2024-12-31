@@ -5,5 +5,5 @@
     "large_image": "python",
     "large_text": "%username% | %weekday% %time%",
     "small_image": "idle",
-    "small_text": "🔄 Up: %uptime% | IP: %ip%"
+    "small_text": "🔄 Up: %uptime% | IP: %username%"
 }
